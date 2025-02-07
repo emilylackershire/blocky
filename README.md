@@ -8,9 +8,10 @@ Primary developer: Emily Lackershire
 
 ### Resources Used
 
-+ _(TODO: fill me in)_
-+ ...
-+ ...
++ Java 17 and Java 23
++ IDE: Apache Netbeans
++ Github
++ Assignment from Professor Osera of Grinnell college, https://osera.cs.grinnell.edu/ttap/data-structures-labs/the-worlds-best-internship.html 
 
 ## Changelog
 
