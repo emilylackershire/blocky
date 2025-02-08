@@ -15,28 +15,11 @@ public class Blocky {
     private static final int FPS = 10;
     private static final double SPF = 1000000000.0 / FPS;
     
-    public static void main(String[] args) {
-        JFrame frame = new JFrame();
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setTitle("Blocky");
-        
-        BlockyGame game = new BlockyGame();
-        BlockyPanel panel = new BlockyPanel(game);
-        frame.add(panel);
-        frame.pack();
-        frame.setVisible(true);
-        
-        frame.addKeyListener(new KeyAdapter() {
-            public void keyPressed(KeyEvent e) {
-                int code = e.getKeyCode();
-                if (code == e.VK_LEFT) {
-                    game.setDirection(Direction.LEFT);
-                } else if (code == e.VK_RIGHT) {
-                    game.setDirection(Direction.RIGHT);
-                }
-            }
-            
-            public void keyReleased(KeyEvent e) {
+    BlockyGame game = new BlockyGame();
+    BlockyPanel panel = new BlockyPanel(game);
+    
+    
+    public void keyReleased(KeyEvent e) {
                 int code = e.getKeyCode();
                 if (code == e.VK_LEFT || code == e.VK_RIGHT) {
                     game.setDirection(Direction.NONE);
@@ -46,8 +29,27 @@ public class Blocky {
                     game.rotatePiece(true);
                 }
             }
-        });
+    public void keyPressed(KeyEvent e) {
+                int code = e.getKeyCode();
+                if (code == e.VK_LEFT) {
+                    game.setDirection(Direction.LEFT);
+                } else if (code == e.VK_RIGHT) {
+                    game.setDirection(Direction.RIGHT);
+                }
+            }
+    
+    public static void main(String[] args) {
+        JFrame frame = new JFrame();
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setTitle("Blocky");
         
+        
+        frame.add(panel);
+        frame.pack();
+        frame.setVisible(true);
+        
+        frame.addKeyListener(new KeyAdapter());   
+    
         long timeElapsed = 0;
         long prevTime = System.nanoTime();
         while (true) {
@@ -61,4 +63,5 @@ public class Blocky {
             }
         }
     }
+    
 }
