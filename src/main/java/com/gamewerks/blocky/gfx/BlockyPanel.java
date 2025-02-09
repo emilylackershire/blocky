@@ -14,9 +14,9 @@ import com.gamewerks.blocky.util.Position;
 public class BlockyPanel extends JPanel {
     private static final int BLOCK_SIZE = 32;
     
-    private int width;
-    private int height;
-    private BlockyGame game;
+    private final int width;
+    private final int height;
+    private final BlockyGame game;
     
     public BlockyPanel(BlockyGame game) {
         width = Constants.BOARD_WIDTH * BLOCK_SIZE;
@@ -25,6 +25,11 @@ public class BlockyPanel extends JPanel {
         setPreferredSize(new Dimension(width, height));
     }
     
+    /**
+     *
+     * @param g
+     */
+    @Override
     public void paintComponent(Graphics g) {
         boolean[][] well = game.getWell();
         g.setColor(Color.GRAY);
