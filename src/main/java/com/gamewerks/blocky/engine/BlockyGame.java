@@ -2,11 +2,15 @@ package com.gamewerks.blocky.engine;
 
 import com.gamewerks.blocky.util.Constants;
 import com.gamewerks.blocky.util.Position;
+import static java.lang.Math.random;
+import java.util.Arrays;
+import java.util.Random;
+import java.util.Stack;
 
 public class BlockyGame {
     private static final int LOCK_DELAY_LIMIT = 30;
     
-    private Board board;
+    private final Board board;
     private Piece activePiece;
     private Direction movement;
     
@@ -19,9 +23,25 @@ public class BlockyGame {
         trySpawnBlock();
     }
     
+    public static PieceKind[] shuffle() {
+        PieceKind [] original = PieceKind.ALL;
+        int length = original.length;
+        PieceKind [] shuffled = Arrays.copyOf(original, length);
+        int n;
+        for(int i = 0; i < length; i++) {
+            n = (int)(Math.random()* (i + 1));
+            shuffled[i] = original[n];
+            shuffled[n] = original[i];
+        }
+        return shuffled;
+    }
+    
+    //THIS IS WHERE TO CHANGE PIECE
     private void trySpawnBlock() {
+        PieceKind[] pieceArr = shuffle();
+        PieceKind letter = pieceArr[0];
         if (activePiece == null) {
-            activePiece = new Piece(PieceKind.I, new Position(Constants.BOARD_HEIGHT - 1, Constants.BOARD_WIDTH / 2 - 2));
+            activePiece = new Piece(letter, new Position(Constants.BOARD_HEIGHT - 20, Constants.BOARD_WIDTH / 2 - 2));
             if (board.collides(activePiece)) {
                 System.exit(0);
             }
@@ -48,7 +68,7 @@ public class BlockyGame {
     }
     
     private void processGravity() {
-        Position nextPos = activePiece.getPosition().add(-1, 0);
+        Position nextPos = activePiece.getPosition().add(1, 0);
         if (!board.collides(activePiece.getLayout(), nextPos)) {
             lockCounter = 0;
             activePiece.moveTo(nextPos);
@@ -69,6 +89,7 @@ public class BlockyGame {
     
     public void step() {
         trySpawnBlock();
+        processMovement();
         processGravity();
         processClearedLines();
     }
