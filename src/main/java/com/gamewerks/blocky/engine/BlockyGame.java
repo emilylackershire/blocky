@@ -2,10 +2,8 @@ package com.gamewerks.blocky.engine;
 
 import com.gamewerks.blocky.util.Constants;
 import com.gamewerks.blocky.util.Position;
-import static java.lang.Math.random;
 import java.util.Arrays;
-import java.util.Random;
-import java.util.Stack;
+
 
 public class BlockyGame {
     private static final int LOCK_DELAY_LIMIT = 30;
@@ -36,7 +34,6 @@ public class BlockyGame {
         return shuffled;
     }
     
-    //THIS IS WHERE TO CHANGE PIECE
     private void trySpawnBlock() {
         PieceKind[] pieceArr = shuffle();
         PieceKind letter = pieceArr[0];
@@ -59,6 +56,7 @@ public class BlockyGame {
             break;
         case RIGHT:
             nextPos = activePiece.getPosition().add(0, 1);
+            break;
         default:
             throw new IllegalStateException("Unrecognized direction: " + movement.name());
         }
