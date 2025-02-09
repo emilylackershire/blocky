@@ -22,8 +22,8 @@ public class Board {
     }
     
     public boolean collides(boolean[][] layout, Position pos) {
-        for (int row = 0; row < layout.length; row++) {
-            int wellRow = pos.row - row;
+        for (int row = 0; row < (layout.length - 1); row++) {
+            int wellRow = pos.row + 1;
             for (int col = 0; col < layout[row].length; col++) {
                 int wellCol = col + pos.col;
                 if (layout[row][col]) {
