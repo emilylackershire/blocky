@@ -22,14 +22,18 @@ public class Board {
     }
     
     public boolean collides(boolean[][] layout, Position pos) {
-        for (int row = 0; row < (layout.length - 1); row++) {
-            int wellRow = pos.row + 1;
-            for (int col = 0; col < layout[row].length; col++) {
+        int count = 0;
+        for (int row = 0; row < (layout.length); row++) {
+            int wellRow = pos.row + row;
+            
+            for (int col = 0; col < (layout[row].length); col++) {
                 int wellCol = col + pos.col;
                 if (layout[row][col]) {
+                    count++;
+                    System.out.println("wellrow: " + wellRow + " row " + row + " pos.row " + pos.row + " count " + count);
                     if (!isValidPosition(wellRow, wellCol)) {
                         return true;
-                    } else if (well[wellRow][wellCol]) {
+                    } else if (well[wellRow-1][wellCol]) {
                         return true;
                     }
                 }
