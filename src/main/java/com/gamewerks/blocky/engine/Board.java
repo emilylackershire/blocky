@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.gamewerks.blocky.util.Constants;
 import com.gamewerks.blocky.util.Position;
+import java.util.Arrays;
 
 public class Board {
     private boolean[][] well;
@@ -23,18 +24,18 @@ public class Board {
     
     public boolean collides(boolean[][] layout, Position pos) {
         int count = 0;
-        for (int row = 0; row < (layout.length); row++) {
-            int wellRow = pos.row + row;
-            
+        for (int row = 0; row < layout.length; row++) {
+            int wellRow = pos.row + row -1;
             for (int col = 0; col < (layout[row].length); col++) {
                 int wellCol = col + pos.col;
                 if (layout[row][col]) {
                     count++;
-                    System.out.println("wellrow: " + wellRow + " row " + row + " pos.row " + pos.row + " count " + count);
                     if (!isValidPosition(wellRow, wellCol)) {
                         return true;
-                    } else if (well[wellRow-1][wellCol]) {
-                        return true;
+                    } else if (wellRow >= 0 && wellRow < well.length && wellCol < well[wellRow].length) {
+                        if(well[wellRow][wellCol]) {
+                            return true;
+                        }
                     }
                 }
             }
@@ -50,7 +51,10 @@ public class Board {
             for (int col = 0; col < layout[row].length; col++) {
                 int wellCol = pos.col + col;
                 if (isValidPosition(wellRow, wellCol) && layout[row][col]) {
-                    well[wellRow][wellCol] = true;
+                    if (wellRow >= 0 && wellRow < well.length && wellCol < well[wellRow].length) {
+                        well[wellRow][wellCol] = true;
+                        
+                    }
                 }
             }
         }
@@ -69,8 +73,13 @@ public class Board {
     
     public void deleteRows(List rows) {
         for (int i = 0; i < rows.size(); i++) {
-            int row = (Integer) rows.get(i);
+            System.out.println(rows.get(i));
+            
+            
+            
+            int row = (int) rows.get(i);
             deleteRow(row);
+            //row + 1
         }
     }
     
