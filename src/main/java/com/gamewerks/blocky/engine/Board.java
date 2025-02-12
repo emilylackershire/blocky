@@ -2,13 +2,11 @@ package com.gamewerks.blocky.engine;
 
 import java.util.LinkedList;
 import java.util.List;
-
 import com.gamewerks.blocky.util.Constants;
 import com.gamewerks.blocky.util.Position;
-import java.util.Arrays;
 
 public class Board {
-    private boolean[][] well;
+    public boolean[][] well;
     
     public Board() {
         well = new boolean[Constants.BOARD_HEIGHT][Constants.BOARD_WIDTH];
@@ -72,14 +70,10 @@ public class Board {
     }
     
     public void deleteRows(List rows) {
-        for (int i = 0; i < rows.size(); i++) {
+        for (int i = 0; i < (rows.size() - 1); i++) {
             System.out.println(rows.get(i));
-            
-            
-            
             int row = (int) rows.get(i);
             deleteRow(row);
-            //row + 1
         }
     }
     
@@ -100,6 +94,5 @@ public class Board {
         }
         return completedRows;
     }
-    
     public boolean[][] getWell() { return well; }
 }
