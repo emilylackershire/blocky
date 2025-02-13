@@ -11,7 +11,7 @@ public class Board {
     public Board() {
         well = new boolean[Constants.BOARD_HEIGHT][Constants.BOARD_WIDTH];
     }
-    
+    //needs fixing, well length
     public boolean isValidPosition(int row, int col) {
         return row >= 0 && row <= well.length && col >= 0 && col <= well[0].length;
     }
@@ -57,11 +57,11 @@ public class Board {
             }
         }
     }
-    
+    //
     public void deleteRow(int n) {
-        for (int row = 0; row < n - 1; row++) {
+        for (int row = n - 1; row >= 0; row--) {
             for (int col = 0; col < Constants.BOARD_WIDTH; col++) {
-                well[row][col] = well[row+1][col];
+                well[row+1][col] = well[row][col];
             }
         }
         for (int col = 0; col < Constants.BOARD_WIDTH; col++) {
@@ -70,10 +70,9 @@ public class Board {
     }
     
     public void deleteRows(List rows) {
-        for (int i = 0; i < (rows.size() - 1); i++) {
-            System.out.println(rows.get(i));
+        for (int i = 0; i < (rows.size()); i++) {
             int row = (int) rows.get(i);
-            deleteRow(row);
+            deleteRow(row + i);
         }
     }
     
