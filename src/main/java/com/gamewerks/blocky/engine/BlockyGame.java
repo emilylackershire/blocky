@@ -2,16 +2,16 @@ package com.gamewerks.blocky.engine;
 
 import com.gamewerks.blocky.util.Constants;
 import com.gamewerks.blocky.util.Position;
+import static java.lang.constant.ConstantDescs.NULL;
 import java.util.Arrays;
+import java.util.List;
 
 
 public class BlockyGame {
     private static final int LOCK_DELAY_LIMIT = 30;
-    
     private final Board board;
-    private Piece activePiece;
+    public Piece activePiece;
     private Direction movement;
-    
     private int lockCounter;
     
     public BlockyGame() {
@@ -84,8 +84,24 @@ public class BlockyGame {
     private void processClearedLines() {
         board.deleteRows(board.getCompletedRows());
     }
+   
+    /**
+     * Helper function to print of the array of booleans representing block boundaries
+     * @param arr
+    */ 
+    public void printWell(boolean arr[][]) {
+        for(int i = 0; i < arr.length; i++) {
+            for (int j = 0; j < arr[i].length; j++) {
+                System.out.print(arr[i][j]);
+            }
+            System.out.println();
+        }
+       System.out.println(); 
+    }
+    
     
     public void step() {
+        printWell(board.getWell());
         trySpawnBlock();
         processMovement();
         processGravity();
