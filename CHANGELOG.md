@@ -9,3 +9,4 @@ Additionally, your shuffling algorithm is working incorrectly - one block-kind s
 CHANGES MADE: 
 - Changed shuffle so that it does not have replacement, meaning all of the blocks will be chosen before the same one is chosen again.
    I did this by making the for loop go backwards so that it could not go over any variables it already had, and made my temp variable work correctly as it was not before. 
+- changed trySpawBlock so that it checks if its gone through all of the blocks before making a new shuffled array, so this should shuffle correclty now. 
