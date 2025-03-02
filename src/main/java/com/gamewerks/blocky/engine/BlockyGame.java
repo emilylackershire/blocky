@@ -1,10 +1,9 @@
 package com.gamewerks.blocky.engine;
 
+import java.util.Arrays;
+
 import com.gamewerks.blocky.util.Constants;
 import com.gamewerks.blocky.util.Position;
-import static java.lang.constant.ConstantDescs.NULL;
-import java.util.Arrays;
-import java.util.List;
 
 
 public class BlockyGame {
@@ -26,10 +25,11 @@ public class BlockyGame {
         int length = original.length;
         PieceKind [] shuffled = Arrays.copyOf(original, length);
         int n;
-        for(int i = 0; i < length; i++) {
+        for(int i = length - 1; i >= 0; i--) {
             n = (int)(Math.random()* (i + 1));
-            shuffled[i] = original[n];
-            shuffled[n] = original[i];
+            PieceKind temp = shuffled[i];
+            shuffled[i] = shuffled[n];
+            shuffled[n] = temp;
         }
         return shuffled;
     }

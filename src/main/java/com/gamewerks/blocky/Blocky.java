@@ -1,11 +1,7 @@
 package com.gamewerks.blocky;
 
-import java.awt.Rectangle;
-import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-
-import javax.swing.JFrame;
+import java.util.Arrays;
 
 import com.gamewerks.blocky.engine.BlockyGame;
 import com.gamewerks.blocky.engine.Direction;
@@ -15,8 +11,8 @@ public class Blocky {
     private static final int FPS = 10;
     private static final double SPF = 1000000000.0 / FPS;
     
-    BlockyGame game = new BlockyGame();
-    BlockyPanel panel = new BlockyPanel(game);
+    private static BlockyGame game = new BlockyGame();
+    private static BlockyPanel panel = new BlockyPanel(game);
     
     
     public void keyReleased(KeyEvent e) {
@@ -63,5 +59,4 @@ public class Blocky {
             }
         }
     }
-    
 }
