@@ -12,33 +12,39 @@ public class BlockyGame {
     public Piece activePiece;
     private Direction movement;
     private int lockCounter;
-    
+    static PieceKind [] original = PieceKind.ALL;
+    PieceKind [] shuffled = Arrays.copyOf(original, length);
+    static int length = original.length;
+    int index = 0;
+                
     public BlockyGame() {
         board = new Board();
         movement = Direction.NONE;
         lockCounter = 0;
         trySpawnBlock();
     }
-    
-    public static PieceKind[] shuffle() {
-        PieceKind [] original = PieceKind.ALL;
-        int length = original.length;
-        PieceKind [] shuffled = Arrays.copyOf(original, length);
+                
+    public static PieceKind[] shuffle(PieceKind[] arr) {
         int n;
         for(int i = length - 1; i >= 0; i--) {
             n = (int)(Math.random()* (i + 1));
-            PieceKind temp = shuffled[i];
-            shuffled[i] = shuffled[n];
-            shuffled[n] = temp;
+            PieceKind temp = arr[i];
+            arr[i] = arr[n];
+            arr[n] = temp;
         }
-        return shuffled;
+        return arr;
     }
     
     private void trySpawnBlock() {
-        PieceKind[] pieceArr = shuffle();
-        PieceKind letter = pieceArr[0];
         if (activePiece == null) {
-            activePiece = new Piece(letter, new Position(Constants.BOARD_HEIGHT - 20, Constants.BOARD_WIDTH / 2 - 2));
+            if(index < 7) {
+                activePiece = new Piece(shuffled[index], new Position(Constants.BOARD_HEIGHT - 20, Constants.BOARD_WIDTH / 2 - 2));
+            } else {
+                shuffle(shuffled);
+                index = 0;
+                activePiece = new Piece(shuffled[index], new Position(Constants.BOARD_HEIGHT - 20, Constants.BOARD_WIDTH / 2 - 2));
+            }
+            index++;
             if (board.collides(activePiece)) {
                 System.exit(0);
             }
@@ -101,7 +107,7 @@ public class BlockyGame {
     
     
     public void step() {
-        printWell(board.getWell());
+        //printWell(board.getWell());
         trySpawnBlock();
         processMovement();
         processGravity();
@@ -112,7 +118,7 @@ public class BlockyGame {
         return board.getWell();
     }
     
-    public Piece getActivePiece() { return activePiece; }
-    public void setDirection(Direction movement) { this.movement = movement; }
-    public void rotatePiece(boolean dir) { activePiece.rotate(dir); }
+    public Piece getActivePiece() {return activePiece;}
+    public void setDirection(Direction movement) {this.movement = movement;}
+    public void rotatePiece(boolean dir) {activePiece.rotate(dir);}
 }
