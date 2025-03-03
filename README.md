@@ -27,945 +27,199 @@ CHANGES MADE IN CHANGELOG.md FILE
 +
 
 ## Changelog
+commit b1ea5733b69d302818bd7f235d113cc55a4c518a (HEAD -> main, origin/main, origin/HEAD)
+Author: Emily <lackersh@grinnell.edu>
+Date:   Mon Mar 3 12:53:06 2025 -0600
 
-~~~console
-
-~~~console
-Git Log: 
-
-Update README.md
-1 parent 
-afe5fb0
- commit 
-7c54681
-
-@@ -4,7 +4,7 @@ _(Gamewerks corporation internal code—do not share!)_
-
-## Credits
-
-Primary developer: _(TODO: fill me in)_
-Primary developer: Emily Lackershire
-
-### Resources Used
-
-Update README.md
-1 parent 
-7c54681
- commit 
-f60cfe6
-
-
-### Resources Used
-
-+ _(TODO: fill me in)_
-+ ...
-+ ...
-+ Java 17 and Java 23
-+ IDE: Apache Netbeans
-+ Github
-+ Assignment from Professor Osera of Grinnell college, https://osera.cs.grinnell.edu/ttap/data-structures-labs/the-worlds-best-internship.html 
-
-## Changelog
-
-Update Blocky.java
-Changed the locations of the functions so that they weren't nested in main.
-1 parent 
-f60cfe6
- commit 
-a731e7a
-
-private static final int FPS = 10;
-private static final double SPF = 1000000000.0 / FPS;
-
-    public static void main(String[] args) {
-        JFrame frame = new JFrame();
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setTitle("Blocky");
-        
-        BlockyGame game = new BlockyGame();
-        BlockyPanel panel = new BlockyPanel(game);
-        frame.add(panel);
-        frame.pack();
-        frame.setVisible(true);
-        
-        frame.addKeyListener(new KeyAdapter() {
-            public void keyPressed(KeyEvent e) {
-                int code = e.getKeyCode();
-                if (code == e.VK_LEFT) {
-                    game.setDirection(Direction.LEFT);
-                } else if (code == e.VK_RIGHT) {
-                    game.setDirection(Direction.RIGHT);
-                }
-            }
-            
-            public void keyReleased(KeyEvent e) {
-    BlockyGame game = new BlockyGame();
-    BlockyPanel panel = new BlockyPanel(game);
-    
-    
-    public void keyReleased(KeyEvent e) {
-int code = e.getKeyCode();
-if (code == e.VK_LEFT || code == e.VK_RIGHT) {
-game.setDirection(Direction.NONE);
-@@ -46,8 +29,27 @@ public void keyReleased(KeyEvent e) {
-game.rotatePiece(true);
-}
-}
-        });
-    public void keyPressed(KeyEvent e) {
-                int code = e.getKeyCode();
-                if (code == e.VK_LEFT) {
-                    game.setDirection(Direction.LEFT);
-                } else if (code == e.VK_RIGHT) {
-                    game.setDirection(Direction.RIGHT);
-                }
-            }
-    
-    public static void main(String[] args) {
-        JFrame frame = new JFrame();
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setTitle("Blocky");
-        
-
-        frame.add(panel);
-        frame.pack();
-        frame.setVisible(true);
-        
-        frame.addKeyListener(new KeyAdapter());   
-    
-long timeElapsed = 0;
-long prevTime = System.nanoTime();
-while (true) {
-@@ -61,4 +63,5 @@ public void keyReleased(KeyEvent e) {
-}
-}
-}
-    
-}
-
-Update Loader.java
-fixed off by one error in loader, made program more efficient
-1 parent 
-a731e7a
- commit 
-c364c14
-
-boolean[][] rotation = new boolean[4][4];
-for (int row = 3; row >= 0; row--) {
-String line = in.nextLine();
-            for (int col = 0; col < 5; col++) {
-            for (int col = 0; col < 4; col++) {
-rotation[row][col] = line.charAt(col) == 'x';
-}
-}
-@@ -23,21 +23,20 @@ private static boolean[][] readRotation(Scanner in) {
-public static boolean[][][] loadRotationData(PieceKind piece) throws IOException {
-boolean[][][] data = new boolean[4][][];
-File file = new File(Constants.DATA_PATH, piece.toString() + ".data");
-        Scanner in = new Scanner(file);
-        for (int i = 0; i < 4; i++) {
-            data[i] = readRotation(in);
-            if (in.hasNextLine()) {
-                in.nextLine();
-        try (Scanner in = new Scanner(file)) {
-            for (int i = 0; i < 4; i++) {
-                data[i] = readRotation(in);
-                if (in.hasNextLine()) {
-                    in.nextLine();
-                }
-}
-}
-        in.close();
-return data;
-}
-
-public static HashMap loadAllRotationData() throws IOException {
-HashMap ret = new HashMap();
-        for (int i = 0; i < PieceKind.ALL.length; i++) {
-            PieceKind piece = PieceKind.ALL[i];
-        for (PieceKind piece : PieceKind.ALL) {
-ret.put(piece, loadRotationData(piece));
-}
-return ret;
-
-Update Loader.java
-Implemented shuffle method
-1 parent 
-c364c14
- commit 
-e1263a4
-
-package com.gamewerks.blocky.util;
-package com.gamewerks.blocky;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Scanner;
-import java.awt.Rectangle;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-
-import javax.swing.JFrame;
-
-import com.gamewerks.blocky.engine.BlockyGame;
-import com.gamewerks.blocky.engine.Direction;
-import com.gamewerks.blocky.engine.PieceKind;
-import com.gamewerks.blocky.gfx.BlockyPanel;
-import java.util.Arrays;
-
-public class Loader {
-    private static boolean[][] readRotation(Scanner in) {
-        boolean[][] rotation = new boolean[4][4];
-        for (int row = 3; row >= 0; row--) {
-            String line = in.nextLine();
-            for (int col = 0; col < 4; col++) {
-                rotation[row][col] = line.charAt(col) == 'x';
-            }
-public class Blocky {
-    private static final int FPS = 10;
-    private static final double SPF = 1000000000.0 / FPS;
-    
-    public static int[] shuffle() {
-        int [] original = {1, 2, 3, 4, 5, 6, 7, 8, 9};
-        int length = original.length;
-        int [] shuffled = Arrays.copyOf(original, length);
-        int n;
-        for(int i = 0; i < length; i++) {
-            n = (int)(Math.random()* (i + 1));
-            shuffled[i] = original[n];
-            shuffled[n] = original[i];
-}
-        return rotation;
-        return shuffled;
-}
-
-    
-    public static boolean[][][] loadRotationData(PieceKind piece) throws IOException {
-        boolean[][][] data = new boolean[4][][];
-        File file = new File(Constants.DATA_PATH, piece.toString() + ".data");
-        try (Scanner in = new Scanner(file)) {
-            for (int i = 0; i < 4; i++) {
-                data[i] = readRotation(in);
-                if (in.hasNextLine()) {
-                    in.nextLine();
-    public static void main(String[] args) {
-        
-        int[] pieceArr = shuffle();
-        System.out.println(Arrays.toString(pieceArr));
-        
-        JFrame frame = new JFrame();
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setTitle("Blocky");
-        
-        BlockyGame game = new BlockyGame();
-        BlockyPanel panel = new BlockyPanel(game);
-        frame.add(panel);
-        frame.pack();
-        frame.setVisible(true);
-        
-        frame.addKeyListener(new KeyAdapter() {
-            public void keyPressed(KeyEvent e) {
-                int code = e.getKeyCode();
-                if (code == e.VK_LEFT) {
-                    game.setDirection(Direction.LEFT);
-                } else if (code == e.VK_RIGHT) {
-                    game.setDirection(Direction.RIGHT);
-}
-}
-            
-            public void keyReleased(KeyEvent e) {
-                int code = e.getKeyCode();
-                if (code == e.VK_LEFT || code == e.VK_RIGHT) {
-                    game.setDirection(Direction.NONE);
-                } else if (code == e.VK_Z) {
-                    game.rotatePiece(false);
-                } else if (code == e.VK_X) {
-                    game.rotatePiece(true);
-                }
-            }
-        });
-        
-        long timeElapsed = 0;
-        long prevTime = System.nanoTime();
-        while (true) {
-            long currentTime = System.nanoTime();
-            timeElapsed += currentTime - prevTime;
-            prevTime = currentTime;
-            if (timeElapsed > SPF) {
-                game.step();
-                panel.paintImmediately(new Rectangle(0, 0, panel.getWidth(), panel.getHeight()));
-                timeElapsed = (long) (timeElapsed - SPF);
-            }
-}
-        return data;
-    }
-    
-    public static HashMap loadAllRotationData() throws IOException {
-        HashMap ret = new HashMap();
-        for (PieceKind piece : PieceKind.ALL) {
-            ret.put(piece, loadRotationData(piece));
-        }
-        return ret;
-}
-}
-
-Update Loader.java
-Implemented shuffle method
-1 parent 
-c364c14
- commit 
-e1263a4
-
-package com.gamewerks.blocky.util;
-package com.gamewerks.blocky;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Scanner;
-import java.awt.Rectangle;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-
-import javax.swing.JFrame;
-
-import com.gamewerks.blocky.engine.BlockyGame;
-import com.gamewerks.blocky.engine.Direction;
-import com.gamewerks.blocky.engine.PieceKind;
-import com.gamewerks.blocky.gfx.BlockyPanel;
-import java.util.Arrays;
-
-public class Loader {
-    private static boolean[][] readRotation(Scanner in) {
-        boolean[][] rotation = new boolean[4][4];
-        for (int row = 3; row >= 0; row--) {
-            String line = in.nextLine();
-            for (int col = 0; col < 4; col++) {
-                rotation[row][col] = line.charAt(col) == 'x';
-            }
-public class Blocky {
-    private static final int FPS = 10;
-    private static final double SPF = 1000000000.0 / FPS;
-    
-    public static int[] shuffle() {
-        int [] original = {1, 2, 3, 4, 5, 6, 7, 8, 9};
-        int length = original.length;
-        int [] shuffled = Arrays.copyOf(original, length);
-        int n;
-        for(int i = 0; i < length; i++) {
-            n = (int)(Math.random()* (i + 1));
-            shuffled[i] = original[n];
-            shuffled[n] = original[i];
-}
-        return rotation;
-        return shuffled;
-}
-
-    
-    public static boolean[][][] loadRotationData(PieceKind piece) throws IOException {
-        boolean[][][] data = new boolean[4][][];
-        File file = new File(Constants.DATA_PATH, piece.toString() + ".data");
-        try (Scanner in = new Scanner(file)) {
-            for (int i = 0; i < 4; i++) {
-                data[i] = readRotation(in);
-                if (in.hasNextLine()) {
-                    in.nextLine();
-    public static void main(String[] args) {
-        
-        int[] pieceArr = shuffle();
-        System.out.println(Arrays.toString(pieceArr));
-        
-        JFrame frame = new JFrame();
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setTitle("Blocky");
-        
-        BlockyGame game = new BlockyGame();
-        BlockyPanel panel = new BlockyPanel(game);
-        frame.add(panel);
-        frame.pack();
-        frame.setVisible(true);
-        
-        frame.addKeyListener(new KeyAdapter() {
-            public void keyPressed(KeyEvent e) {
-                int code = e.getKeyCode();
-                if (code == e.VK_LEFT) {
-                    game.setDirection(Direction.LEFT);
-                } else if (code == e.VK_RIGHT) {
-                    game.setDirection(Direction.RIGHT);
-}
-}
-            
-            public void keyReleased(KeyEvent e) {
-                int code = e.getKeyCode();
-                if (code == e.VK_LEFT || code == e.VK_RIGHT) {
-                    game.setDirection(Direction.NONE);
-                } else if (code == e.VK_Z) {
-                    game.rotatePiece(false);
-                } else if (code == e.VK_X) {
-                    game.rotatePiece(true);
-                }
-            }
-        });
-        
-        long timeElapsed = 0;
-        long prevTime = System.nanoTime();
-        while (true) {
-            long currentTime = System.nanoTime();
-            timeElapsed += currentTime - prevTime;
-            prevTime = currentTime;
-            if (timeElapsed > SPF) {
-                game.step();
-                panel.paintImmediately(new Rectangle(0, 0, panel.getWidth(), panel.getHeight()));
-                timeElapsed = (long) (timeElapsed - SPF);
-            }
-}
-        return data;
-    }
-    
-    public static HashMap loadAllRotationData() throws IOException {
-        HashMap ret = new HashMap();
-        for (PieceKind piece : PieceKind.ALL) {
-            ret.put(piece, loadRotationData(piece));
-        }
-        return ret;
-}
-}
-
-Update Loader.java
-Whoops, shuffle is NOT supposed to be here
-1 parent 
-e1263a4
- commit 
-afac781
-
-package com.gamewerks.blocky;
-package com.gamewerks.blocky.util;
-
-import java.awt.Rectangle;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.io.File;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Scanner;
-
-import javax.swing.JFrame;
-
-import com.gamewerks.blocky.engine.BlockyGame;
-import com.gamewerks.blocky.engine.Direction;
-import com.gamewerks.blocky.engine.PieceKind;
-import com.gamewerks.blocky.gfx.BlockyPanel;
-import java.util.Arrays;
-
-public class Blocky {
-    private static final int FPS = 10;
-    private static final double SPF = 1000000000.0 / FPS;
-    
-    public static int[] shuffle() {
-        int [] original = {1, 2, 3, 4, 5, 6, 7, 8, 9};
-        int length = original.length;
-        int [] shuffled = Arrays.copyOf(original, length);
-        int n;
-        for(int i = 0; i < length; i++) {
-            n = (int)(Math.random()* (i + 1));
-            shuffled[i] = original[n];
-            shuffled[n] = original[i];
-public class Loader {
-    private static boolean[][] readRotation(Scanner in) {
-        boolean[][] rotation = new boolean[4][4];
-        for (int row = 3; row >= 0; row--) {
-            String line = in.nextLine();
-            for (int col = 0; col < 4; col++) {
-                rotation[row][col] = line.charAt(col) == 'x';
-            }
-}
-        return shuffled;
-        return rotation;
-}
-
-    public static void main(String[] args) {
-        
-        int[] pieceArr = shuffle();
-        System.out.println(Arrays.toString(pieceArr));
-        
-        JFrame frame = new JFrame();
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setTitle("Blocky");
-        
-        BlockyGame game = new BlockyGame();
-        BlockyPanel panel = new BlockyPanel(game);
-        frame.add(panel);
-        frame.pack();
-        frame.setVisible(true);
-        
-        frame.addKeyListener(new KeyAdapter() {
-            public void keyPressed(KeyEvent e) {
-                int code = e.getKeyCode();
-                if (code == e.VK_LEFT) {
-                    game.setDirection(Direction.LEFT);
-                } else if (code == e.VK_RIGHT) {
-                    game.setDirection(Direction.RIGHT);
-                }
-            }
-            
-            public void keyReleased(KeyEvent e) {
-                int code = e.getKeyCode();
-                if (code == e.VK_LEFT || code == e.VK_RIGHT) {
-                    game.setDirection(Direction.NONE);
-                } else if (code == e.VK_Z) {
-                    game.rotatePiece(false);
-                } else if (code == e.VK_X) {
-                    game.rotatePiece(true);
-    
-    public static boolean[][][] loadRotationData(PieceKind piece) throws IOException {
-        boolean[][][] data = new boolean[4][][];
-        File file = new File(Constants.DATA_PATH, piece.toString() + ".data");
-        try (Scanner in = new Scanner(file)) {
-            for (int i = 0; i < 4; i++) {
-                data[i] = readRotation(in);
-                if (in.hasNextLine()) {
-                    in.nextLine();
-}
-}
-        });
-        
-        long timeElapsed = 0;
-        long prevTime = System.nanoTime();
-        while (true) {
-            long currentTime = System.nanoTime();
-            timeElapsed += currentTime - prevTime;
-            prevTime = currentTime;
-            if (timeElapsed > SPF) {
-                game.step();
-                panel.paintImmediately(new Rectangle(0, 0, panel.getWidth(), panel.getHeight()));
-                timeElapsed = (long) (timeElapsed - SPF);
-            }
-}
-        return data;
-    }
-    
-    public static HashMap loadAllRotationData() throws IOException {
-        HashMap ret = new HashMap();
-        for (PieceKind piece : PieceKind.ALL) {
-            ret.put(piece, loadRotationData(piece));
-        }
-        return ret;
-}
-}
-
-Update BlockyGame.java
-Implemented shuffle
-1 parent 
-afac781
- commit 
-92503fb
-
-
-import com.gamewerks.blocky.util.Constants;
-import com.gamewerks.blocky.util.Position;
-import static java.lang.Math.random;
-import java.util.Arrays;
-import java.util.Random;
-import java.util.Stack;
-
-public class BlockyGame {
-private static final int LOCK_DELAY_LIMIT = 30;
-
-    private Board board;
-    private final Board board;
-private Piece activePiece;
-private Direction movement;
-
-@@ -19,9 +23,25 @@ public BlockyGame() {
-trySpawnBlock();
-}
-
-    public static PieceKind[] shuffle() {
-        PieceKind [] original = PieceKind.ALL;
-        int length = original.length;
-        PieceKind [] shuffled = Arrays.copyOf(original, length);
-        int n;
-        for(int i = 0; i < length; i++) {
-            n = (int)(Math.random()* (i + 1));
-            shuffled[i] = original[n];
-            shuffled[n] = original[i];
-        }
-        return shuffled;
-    }
-    
-    //THIS IS WHERE TO CHANGE PIECE
-private void trySpawnBlock() {
-        PieceKind[] pieceArr = shuffle();
-        PieceKind letter = pieceArr[0];
-if (activePiece == null) {
-            activePiece = new Piece(PieceKind.I, new Position(Constants.BOARD_HEIGHT - 1, Constants.BOARD_WIDTH / 2 - 2));
-            activePiece = new Piece(letter, new Position(Constants.BOARD_HEIGHT - 20, Constants.BOARD_WIDTH / 2 - 2));
-if (board.collides(activePiece)) {
-System.exit(0);
-}
-@@ -48,7 +68,7 @@ private void processMovement() {
-}
-
-private void processGravity() {
-        Position nextPos = activePiece.getPosition().add(-1, 0);
-        Position nextPos = activePiece.getPosition().add(1, 0);
-if (!board.collides(activePiece.getLayout(), nextPos)) {
-lockCounter = 0;
-activePiece.moveTo(nextPos);
-@@ -69,6 +89,7 @@ private void processClearedLines() {
-
-public void step() {
-trySpawnBlock();
-        processMovement();
-processGravity();
-processClearedLines();
-}
-
-Update BlockyPanel.java
-fixed gravity
-1 parent 
-92503fb
- commit 
-0d1f627
-
-public class BlockyPanel extends JPanel {
-private static final int BLOCK_SIZE = 32;
-
-    private int width;
-    private int height;
-    private BlockyGame game;
-    private final int width;
-    private final int height;
-    private final BlockyGame game;
-
-public BlockyPanel(BlockyGame game) {
-width = Constants.BOARD_WIDTH * BLOCK_SIZE;
-@@ -25,6 +25,11 @@ public BlockyPanel(BlockyGame game) {
-setPreferredSize(new Dimension(width, height));
-}
-
-    /**
-     *
-     * @param g
-     */
-    @Override
-public void paintComponent(Graphics g) {
-boolean[][] well = game.getWell();
-g.setColor(Color.GRAY);
-
-Update Board.java
-This makes it so the pieces stop at the bottom of the board and don't just go off the screen
-1 parent 
-0d1f627
- commit 
-e354faa
-
-}
-
-public boolean collides(boolean[][] layout, Position pos) {
-        for (int row = 0; row < layout.length; row++) {
-            int wellRow = pos.row - row;
-        for (int row = 0; row < (layout.length - 1); row++) {
-            int wellRow = pos.row + 1;
-for (int col = 0; col < layout[row].length; col++) {
-int wellCol = col + pos.col;
-if (layout[row][col]) {
-
-Update Board.java
-No more out of bounds error
-1 parent 
-e354faa
- commit 
-fd7a0b0
-
-}
-
-public boolean collides(boolean[][] layout, Position pos) {
-        for (int row = 0; row < (layout.length - 1); row++) {
-            int wellRow = pos.row + 1;
-            for (int col = 0; col < layout[row].length; col++) {
-        int count = 0;
-        for (int row = 0; row < (layout.length); row++) {
-            int wellRow = pos.row + row;
-            
-            for (int col = 0; col < (layout[row].length); col++) {
-int wellCol = col + pos.col;
-if (layout[row][col]) {
-                    count++;
-                    System.out.println("wellrow: " + wellRow + " row " + row + " pos.row " + pos.row + " count " + count);
-if (!isValidPosition(wellRow, wellCol)) {
-return true;
-                    } else if (well[wellRow][wellCol]) {
-                    } else if (well[wellRow-1][wellCol]) {
-return true;
-}
-}
-
-Update BlockyGame.java
-added break in switch statement so that right does not just make the program freeze
-1 parent 
-fd7a0b0
- commit 
-7b6f28d
-
-
-import com.gamewerks.blocky.util.Constants;
-import com.gamewerks.blocky.util.Position;
-import static java.lang.Math.random;
-import java.util.Arrays;
-import java.util.Random;
-import java.util.Stack;
-
-
-public class BlockyGame {
-private static final int LOCK_DELAY_LIMIT = 30;
-@@ -36,7 +34,6 @@ public static PieceKind[] shuffle() {
-return shuffled;
-}
-
-    //THIS IS WHERE TO CHANGE PIECE
-private void trySpawnBlock() {
-PieceKind[] pieceArr = shuffle();
-PieceKind letter = pieceArr[0];
-@@ -59,6 +56,7 @@ private void processMovement() {
-break;
-case RIGHT:
-nextPos = activePiece.getPosition().add(0, 1);
-            break;
-default:
-throw new IllegalStateException("Unrecognized direction: " + movement.name());
-}
-
-Update README.md
-uploaded resources used
-1 parent 
-7b6f28d
- commit 
-0626c2c
-
-+ Java 17 and Java 23
-+ IDE: Apache Netbeans
-+ Github
-+ Assignment from Professor Osera of Grinnell college, https://osera.cs.grinnell.edu/ttap/data-structures-labs/the-worlds-best-internship.html 
-+ Assignment from Professor Osera of Grinnell college
-  https://osera.cs.grinnell.edu/ttap/data-structures-labs/the-worlds-best-internship.html
-+ This wikipedia article about the fischer-yates shuffle was given in our assignment.
-  https://en.wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle
-+ Reaserched how to get a random number in java for the shuffle method.
-  https://www.geeksforgeeks.org/java-math-random-method-examples/
-+ I was not sure if there was an easy way to make a copy of an array in Java, so I looked that up and there is!
-  https://www.geeksforgeeks.org/array-copy-in-java/
-+ When doing testing, I remembered there was a way to easily print an array, but I could not remember what it was, so I 
-  looked it up.
-  https://stackoverflow.com/questions/409784/whats-the-simplest-way-to-print-a-java-array
-+
-
-## Changelog
-
-Update Board.java
-updated add to well
-1 parent 
-0626c2c
- commit 
-ee80ab0
-
-
-import com.gamewerks.blocky.util.Constants;
-import com.gamewerks.blocky.util.Position;
-import java.util.Arrays;
-
-public class Board {
-private boolean[][] well;
-@@ -23,18 +24,18 @@ public boolean collides(Piece p) {
-
-public boolean collides(boolean[][] layout, Position pos) {
-int count = 0;
-        for (int row = 0; row < (layout.length); row++) {
-            int wellRow = pos.row + row;
-            
-        for (int row = 0; row < layout.length; row++) {
-            int wellRow = pos.row + row -1;
-for (int col = 0; col < (layout[row].length); col++) {
-int wellCol = col + pos.col;
-if (layout[row][col]) {
-count++;
-                    System.out.println("wellrow: " + wellRow + " row " + row + " pos.row " + pos.row + " count " + count);
-if (!isValidPosition(wellRow, wellCol)) {
-return true;
-                    } else if (well[wellRow-1][wellCol]) {
-                        return true;
-                    } else if (wellRow >= 0 && wellRow < well.length && wellCol < well[wellRow].length) {
-                        if(well[wellRow][wellCol]) {
-                            return true;
-                        }
-}
-}
-}
-@@ -50,7 +51,10 @@ public void addToWell(Piece p) {
-for (int col = 0; col < layout[row].length; col++) {
-int wellCol = pos.col + col;
-if (isValidPosition(wellRow, wellCol) && layout[row][col]) {
-                    well[wellRow][wellCol] = true;
-                    if (wellRow >= 0 && wellRow < well.length && wellCol < well[wellRow].length) {
-                        well[wellRow][wellCol] = true;
-                        
-                    }
-}
-}
-}
-@@ -69,8 +73,13 @@ public void deleteRow(int n) {
-
-public void deleteRows(List rows) {
-for (int i = 0; i < rows.size(); i++) {
-            int row = (Integer) rows.get(i);
-            System.out.println(rows.get(i));
-            
-            
-            
-            int row = (int) rows.get(i);
-deleteRow(row);
-            //row + 1
-}
-}
-
-Update Board.java
-delete row is no longer causing error
-1 parent 
-ee80ab0
- commit 
-e94e9b6
-
-
-import java.util.LinkedList;
-import java.util.List;
-
-import com.gamewerks.blocky.util.Constants;
-import com.gamewerks.blocky.util.Position;
-import java.util.Arrays;
-
-public class Board {
-    private boolean[][] well;
-    public boolean[][] well;
-
-public Board() {
-well = new boolean[Constants.BOARD_HEIGHT][Constants.BOARD_WIDTH];
-@@ -72,14 +70,10 @@ public void deleteRow(int n) {
-}
-
-public void deleteRows(List rows) {
-        for (int i = 0; i < rows.size(); i++) {
-        for (int i = 0; i < (rows.size() - 1); i++) {
-System.out.println(rows.get(i));
-            
-            
-            
-int row = (int) rows.get(i);
-deleteRow(row);
-            //row + 1
-}
-}
-
-@@ -100,6 +94,5 @@ public List getCompletedRows() {
-}
-return completedRows;
-}
-    
-public boolean[][] getWell() { return well; }
-}
-
-Update Board.java
-tried to fix some things with the delete so that the rows would actually delete, it didn't work unfortunately.
-
-public Board() {
-well = new boolean[Constants.BOARD_HEIGHT][Constants.BOARD_WIDTH];
-}
-    
-    //needs fixing, well length
-public boolean isValidPosition(int row, int col) {
-return row >= 0 && row <= well.length && col >= 0 && col <= well[0].length;
-}
-@@ -57,11 +57,11 @@ public void addToWell(Piece p) {
-}
-}
-}
-    
-    //
-public void deleteRow(int n) {
-        for (int row = 0; row < n - 1; row++) {
-        for (int row = n - 1; row >= 0; row--) {
-for (int col = 0; col < Constants.BOARD_WIDTH; col++) {
-                well[row][col] = well[row+1][col];
-                well[row+1][col] = well[row][col];
-}
-}
-for (int col = 0; col < Constants.BOARD_WIDTH; col++) {
-@@ -70,10 +70,9 @@ public void deleteRow(int n) {
-}
-
-public void deleteRows(List rows) {
-        for (int i = 0; i < (rows.size() - 1); i++) {
-            System.out.println(rows.get(i));
-        for (int i = 0; i < (rows.size()); i++) {
-int row = (int) rows.get(i);
-            deleteRow(row);
-            deleteRow(row + i);
-}
-}
-
-Update BlockyGame.java
-tried to fix the block boundaries so they actually go on top of each other
-1 parent 
-1b79e04
- commit 
-319c120
-
-
-import com.gamewerks.blocky.util.Constants;
-import com.gamewerks.blocky.util.Position;
-import static java.lang.constant.ConstantDescs.NULL;
-import java.util.Arrays;
-import java.util.List;
-
-
-public class BlockyGame {
-private static final int LOCK_DELAY_LIMIT = 30;
-    
-private final Board board;
-    private Piece activePiece;
-    public Piece activePiece;
-private Direction movement;
-    
-private int lockCounter;
-
-public BlockyGame() {
-@@ -84,8 +84,24 @@ private void processGravity() {
-private void processClearedLines() {
-board.deleteRows(board.getCompletedRows());
-}
-   
-    /**
-     * Helper function to print of the array of booleans representing block boundaries
-     * @param arr
-    */ 
-    public void printWell(boolean arr[][]) {
-        for(int i = 0; i < arr.length; i++) {
-            for (int j = 0; j < arr[i].length; j++) {
-                System.out.print(arr[i][j]);
-            }
-            System.out.println();
-        }
-       System.out.println(); 
-    }
-    
-
-public void step() {
-        printWell(board.getWell());
-trySpawnBlock();
-processMovement();
-processGravity();
-~~~
-~~~
+    deleted helper function I no loger needed and updated readme
+
+commit 54d4c12010ad491b5f7647656c5eb5a5823a9c12
+Author: Emily <lackersh@grinnell.edu>
+Date:   Mon Mar 3 12:49:21 2025 -0600
+
+    finnaly got the pieces to stack on top of eachother!!!
+
+commit 647ca0806e7495d8dc12719ad81a8ff3e2fa5dbd
+Author: Emily <lackersh@grinnell.edu>
+Date:   Mon Mar 3 10:09:00 2025 -0600
+
+    fixed error I accidentally created where pieces just disapeared :(
+
+commit c842fc86b04bfe159ad76d78563e866f2cc279e1
+Author: Emily <lackersh@grinnell.edu>
+Date:   Sun Mar 2 14:24:35 2025 -0600
+
+commit d9eb66f8fae76a30fa63e31a07f8afa3ae86be84
+Author: Emily <lackersh@grinnell.edu>
+Date:   Sun Mar 2 14:22:47 2025 -0600
+
+    updated so shuffle acctually changes the piece each time, not just the array doesn't have replacement. 
+
+commit bcc2af713eaef4c1d3d7eae56ded06cc7a8aff83
+Author: Emily <lackersh@grinnell.edu>
+Date:   Sun Mar 2 12:33:28 2025 -0600
+
+    fixed errros that kinda just randomly appeared
+
+commit 197ed7d1f223913a668a90c1ad07b8d240cf30c9
+Author: Emily <lackersh@grinnell.edu>
+Date:   Sat Mar 1 18:56:09 2025 -0600
+
+    made changelog for updates
+
+commit 7eca429143456ca191c075f52f5eb235a9113ac6
+Author: Emily <lackersh@grinnell.edu>
+Date:   Sat Mar 1 18:50:14 2025 -0600
+
+    updated shuffle so that it does not have replacement, meaning each piece will be chosen before the same one is chosen again
+
+commit d2b938d3ff95a7810f621b6f21de09b6a780cdbe
+Author: Emily Lackershire <152826358+emilylackershire@users.noreply.github.com>
+Date:   Wed Feb 12 23:24:09 2025 -0600
+
+    Update README.md
+
+    added git log
+
+commit 319c120a43284e307fc24a56c05bb5fa6bcf5a21
+Author: Emily Lackershire <152826358+emilylackershire@users.noreply.github.com>
+Date:   Wed Feb 12 23:01:12 2025 -0600
+
+    Update BlockyGame.java
+
+    tried to fix the block boundaries so they actually go on top of each other
+
+commit 1b79e0443104f2b13786ac8d966cc8556847ec3b
+Author: Emily Lackershire <152826358+emilylackershire@users.noreply.github.com>
+Date:   Wed Feb 12 22:59:52 2025 -0600
+
+    Update Board.java
+
+    tried to fix some things with the delete so that the rows would actually delete, it didn't work unfortunately.
+
+commit e94e9b69b32e3c05d870c046749bb0b633dfdf50
+Author: Emily Lackershire <152826358+emilylackershire@users.noreply.github.com>
+Date:   Tue Feb 11 23:08:26 2025 -0600
+
+    Update Board.java
+
+    delete row is no longer causing erro
+
+commit ee80ab0084894e4ccb16d9aa111d515e9dc1b8fe
+Author: Emily Lackershire <152826358+emilylackershire@users.noreply.github.com>
+Date:   Tue Feb 11 22:13:07 2025 -0600
+
+    Update Board.java
+
+    updated add to well
+
+commit 0626c2c2089c8d052a33a0041dc977adbb340f69
+Author: Emily Lackershire <152826358+emilylackershire@users.noreply.github.com>
+Date:   Sun Feb 9 15:42:47 2025 -0600
+
+    Update README.md
+
+    uploaded resources used
+
+commit 7b6f28d02a68e1f7f0ac3da403db3a3f53deaf3d
+Author: Emily Lackershire <152826358+emilylackershire@users.noreply.github.com>
+Date:   Sun Feb 9 15:36:55 2025 -0600
+
+    Update BlockyGame.java
+
+    added break in switch statement so that right does not just make the program freeze
+
+commit fd7a0b0cfa3160cfedd7441208936599809fd42e
+Author: Emily Lackershire <152826358+emilylackershire@users.noreply.github.com>
+Date:   Sun Feb 9 13:30:31 2025 -0600
+
+    Update Board.java
+
+    No more out of bounds error
+
+commit e354faacd637367ccc7b07874c5807005d95ab5a
+Author: Emily Lackershire <152826358+emilylackershire@users.noreply.github.com>
+Date:   Sun Feb 9 13:10:51 2025 -0600
+
+    Update Board.java
+
+    This makes it so the pieces stop at the bottom of the board and don't just go off the screen
+
+commit 0d1f6273e0ed4a7eea0851c5a56d5c14833cf5d7
+Author: Emily Lackershire <152826358+emilylackershire@users.noreply.github.com>
+Date:   Sun Feb 9 12:54:24 2025 -0600
+
+    Update BlockyPanel.java
+
+    fixed gravity
+
+commit 92503fbf639ad01bace09bf2f5721d80f27dcaa2
+Author: Emily Lackershire <152826358+emilylackershire@users.noreply.github.com>
+Date:   Sun Feb 9 12:53:39 2025 -0600
+
+    Update BlockyGame.java
+
+    Implemented shuffle
+
+commit afac7818201b5bf3a002101d3d20ff403c2dbace
+Author: Emily Lackershire <152826358+emilylackershire@users.noreply.github.com>
+Date:   Sun Feb 9 12:52:44 2025 -0600
+
+    Update Loader.java
+
+    Whoops, shuffle is NOT supposed to be here
+
+commit e1263a49627b397b498443c05facace832a503f1
+Author: Emily Lackershire <152826358+emilylackershire@users.noreply.github.com>
+Date:   Sun Feb 9 12:48:59 2025 -0600
+
+    Update Loader.java
+
+    Implemented shuffle method
+
+commit c364c146b263a2c358629b268a31e5f21ba1c29f
+Author: Emily Lackershire <152826358+emilylackershire@users.noreply.github.com>
+Date:   Sat Feb 8 20:16:16 2025 -0600
+
+    Update Loader.java
+
+    fixed off by one error in loader, made program more efficient
+
+commit a731e7a57aaee295f163f5172b1737f27b7f4234
+Author: Emily Lackershire <152826358+emilylackershire@users.noreply.github.com>
+Date:   Sat Feb 8 16:06:48 2025 -0600
+
+    Update Blocky.java
+
+    Changed the locations of the functions so that they weren't nested in main.
+
+commit f60cfe68367c7171c85bdc0eac5b0417735947cf
+Author: Emily Lackershire <152826358+emilylackershire@users.noreply.github.com>
+Date:   Fri Feb 7 12:55:50 2025 -0600
+
+    Update README.md
+
+commit 7c546812d38c6bcc96e91820254ef8d20107c2f1
+Author: Emily Lackershire <152826358+emilylackershire@users.noreply.github.com>
+Date:   Fri Feb 7 12:53:11 2025 -0600
+
+    Update README.md
+
+commit afe5fb01903e400af8fa786f1a8c10dfa900169f (upstream/main, upstream/HEAD)
+Author: Peter-Michael Osera <osera@cs.grinnell.edu>
+Date:   Wed Feb 5 20:51:21 2025 -0600
+
+    Update pom.xml to handle Java versioning
+
+commit 21efa1b57d4ebede094644493aa2c7559c71883b
+Author: Peter-Michael Osera <osera@cs.grinnell.edu>
+Date:   Wed Feb 5 09:17:30 2025 -0600
+
+    hey is this how I use git, what is a commit?
+
+commit 567a65a7ce173cf4c0a232aad9c22ab38ca66331
+Author: Peter-Michael Osera <osera@cs.grinnell.edu>
+Date:   Wed Feb 5 09:13:20 2025 -0600
+
+    initial commit
+(END)
