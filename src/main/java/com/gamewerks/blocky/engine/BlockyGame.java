@@ -90,24 +90,8 @@ public class BlockyGame {
     private void processClearedLines() {
         board.deleteRows(board.getCompletedRows());
     }
-   
-    /**
-     * Helper function to print of the array of booleans representing block boundaries
-     * @param arr
-    */ 
-    public void printWell(boolean arr[][]) {
-        for(int i = 0; i < arr.length; i++) {
-            for (int j = 0; j < arr[i].length; j++) {
-                System.out.print(arr[i][j]);
-            }
-            System.out.println();
-        }
-       System.out.println(); 
-    }
-    
     
     public void step() {
-        //printWell(board.getWell());
         trySpawnBlock();
         processMovement();
         processGravity();

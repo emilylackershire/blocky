@@ -6,6 +6,8 @@ _(Gamewerks corporation internal code—do not share!)_
 
 Primary developer: Emily Lackershire
 
+CHANGES MADE IN CHANGELOG.md FILE 
+
 ### Resources Used
 
 + Java 17 and Java 23
