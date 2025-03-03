@@ -44,7 +44,7 @@ public class BlockyPanel extends JPanel {
                 for (int col = 0; col < 4; col++) {
                     if (layout[row][col]) {
                         g.fillRect((activePos.col + col) * BLOCK_SIZE,
-                                   (activePos.row - row + 1) * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE);
+                                   (activePos.row + row - 2) * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE);
                     }
                 }
             }
@@ -54,7 +54,7 @@ public class BlockyPanel extends JPanel {
         for (int row = 0; row < Constants.BOARD_HEIGHT; row++) {
             for (int col = 0; col < Constants.BOARD_WIDTH; col++) {
                 if (well[row][col]) {
-                    g.fillRect(col * BLOCK_SIZE, BLOCK_SIZE * (row + 1), BLOCK_SIZE, BLOCK_SIZE);
+                    g.fillRect(col * BLOCK_SIZE, BLOCK_SIZE * (row - 2), BLOCK_SIZE, BLOCK_SIZE);
                 }
             }
         }
