@@ -2,6 +2,7 @@ package com.gamewerks.blocky.engine;
 
 import java.util.LinkedList;
 import java.util.List;
+
 import com.gamewerks.blocky.util.Constants;
 import com.gamewerks.blocky.util.Position;
 
@@ -11,7 +12,7 @@ public class Board {
     public Board() {
         well = new boolean[Constants.BOARD_HEIGHT][Constants.BOARD_WIDTH];
     }
-    //needs fixing, well length
+
     public boolean isValidPosition(int row, int col) {
         return row >= 0 && row <= well.length && col >= 0 && col <= well[0].length;
     }
@@ -21,13 +22,11 @@ public class Board {
     }
     
     public boolean collides(boolean[][] layout, Position pos) {
-        int count = 0;
         for (int row = 0; row < layout.length; row++) {
-            int wellRow = pos.row + row -1;
-            for (int col = 0; col < (layout[row].length); col++) {
+            int wellRow = pos.row + row;
+            for (int col = 0; col < layout[row].length; col++) {
                 int wellCol = col + pos.col;
                 if (layout[row][col]) {
-                    count++;
                     if (!isValidPosition(wellRow, wellCol)) {
                         return true;
                     } else if (wellRow >= 0 && wellRow < well.length && wellCol < well[wellRow].length) {
@@ -38,7 +37,7 @@ public class Board {
                 }
             }
         }
-        return false;
+    return false;
     }
     
     public void addToWell(Piece p) {
@@ -59,13 +58,13 @@ public class Board {
     }
     //
     public void deleteRow(int n) {
+        for (int col = 0; col < Constants.BOARD_WIDTH; col++) {
+            well[n][col] = false;
+        }
         for (int row = n - 1; row >= 0; row--) {
             for (int col = 0; col < Constants.BOARD_WIDTH; col++) {
                 well[row+1][col] = well[row][col];
             }
-        }
-        for (int col = 0; col < Constants.BOARD_WIDTH; col++) {
-            well[n][col] = false;
         }
     }
     
@@ -88,7 +87,7 @@ public class Board {
         List completedRows = new LinkedList();
         for (int row = 0; row < Constants.BOARD_HEIGHT; row++) {
             if (isCompletedRow(row)) {
-                completedRows.add(well[row]);
+                completedRows.add(row);
             }
         }
         return completedRows;
